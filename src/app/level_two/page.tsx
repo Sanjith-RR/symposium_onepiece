@@ -31,11 +31,11 @@ export default function Home() {
   useEffect(() => {
     // Check if there's a start time in localStorage
     const storedStartTime = localStorage.getItem('startTime_2');
-    const storedDuration = localStorage.getItem('duration_2') || 35 * 60;
+    const storedDuration =  localStorage.getItem('duration_2') || (35 * 60).toString();
 
     if (storedStartTime) {
       const elapsedTime = Math.floor((Date.now() - parseInt(storedStartTime)) / 1000);
-      const remainingTime = Math.max(storedDuration - elapsedTime, 0);
+      const remainingTime = Math.max(parseInt(storedDuration.toString()) - elapsedTime, 0);
       setTimeLeft(remainingTime);
     } else {
       const newStartTime = Date.now(); // new Date('2024-03-16T10:00:00').getTime();

@@ -5,7 +5,7 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import { FaDownload, FaPaperPlane } from "react-icons/fa";
 
 export default function Home() {
-  const [timeLeft, setTimeLeft] = useState(45 * 60); // 25 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(0); // 25 minutes in seconds
   const [secretCode, setSecretCode] = useState(""); // State for the secret code
   const router = useRouter(); // Initialize the router
   const [isAllowed, setIsAllowed] = useState(false);
@@ -18,6 +18,23 @@ export default function Home() {
         } else {
             setIsAllowed(true); // Grant access
         }
+    }, []);
+    
+    useEffect(() => {
+      // Check if there's a start time in localStorage
+      const storedStartTime = localStorage.getItem('startTime_2');
+      const storedDuration =  localStorage.getItem('duration_2') || (45 * 60).toString();
+  
+      if (storedStartTime) {
+        const elapsedTime = Math.floor((Date.now() - parseInt(storedStartTime)) / 1000);
+        const remainingTime = Math.max(parseInt(storedDuration.toString()) - elapsedTime, 0);
+        setTimeLeft(remainingTime);
+      } else {
+        const newStartTime = Date.now(); // new Date('2024-03-16T10:00:00').getTime();
+        localStorage.setItem('startTime_2', newStartTime.toString());
+        localStorage.setItem('duration_2', storedDuration.toString());
+        setTimeLeft(parseInt(storedDuration));
+      }
     }, []);
 
   useEffect(() => {
