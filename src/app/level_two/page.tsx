@@ -58,14 +58,9 @@ export default function Home() {
     }
   };
 
-  const handleDataset = ()=>{
-    const url = "https://github.com/KSSRUTHI/symposium_dataset";
-    const a = document.createElement("a");
-    a.href = url;
-    a.target = "_blank";  // Opens in a new tab
-    a.rel = "noopener noreferrer"; // Security best practice
-    a.click();
-  }
+  const handleDataset = () => {
+    window.open("https://github.com/KSSRUTHI/symposium_dataset", "_blank", "noopener,noreferrer");
+};
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
