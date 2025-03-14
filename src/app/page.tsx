@@ -1,8 +1,11 @@
 "use client";
 
-import Lottie from "lottie-react";
+import dynamic from "next/dynamic"; // For lazy loading
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation"; // Updated import
+
+// Lazy load Lottie to ensure it's client-side only
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 export default function Home() {
   const [animationData, setAnimationData] = useState(null);
@@ -40,8 +43,8 @@ export default function Home() {
         <h1
           className="font-bold text-8xl"
           style={{
-            WebkitTextStroke: "0.2px #EFE754", // Gold-ish outline
-            WebkitTextFillColor: "black", // Black fill
+            WebkitTextStroke: "0.2px #EFE754",
+            WebkitTextFillColor: "black",
           }}
         >
           THE ONE PIECE
@@ -69,8 +72,8 @@ export default function Home() {
         <h1
           className="font-bold text-5xl cursor-pointer transition-all duration-300"
           style={{
-            WebkitTextStroke: "0.2px #EFE754", // Gold-ish outline
-            WebkitTextFillColor: "black", // Black fill
+            WebkitTextStroke: "0.2px #EFE754",
+            WebkitTextFillColor: "black",
             border: "2px solid transparent",
             padding: "10px",
             borderRadius: "10px",

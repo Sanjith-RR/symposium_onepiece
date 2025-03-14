@@ -43,11 +43,7 @@ export default function Home() {
 
   const handleDataset = ()=>{
     const url = "https://github.com/Sandhiya-S67/symposium_dataset";
-    const a = document.createElement("a");
-    a.href = url;
-    a.target = "_blank";  // Opens in a new tab
-    a.rel = "noopener noreferrer"; // Security best practice
-    a.click();
+    window.open(url, "_blank", "noopener,noreferrer");
   }
 
   const formatTime = (seconds: number) => {

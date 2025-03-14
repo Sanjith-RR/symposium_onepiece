@@ -19,7 +19,7 @@ export default function Home() {
             setIsAllowed(true); // Grant access
         }
     }, []);
-    
+
     useEffect(() => {
       // Check if there's a start time in localStorage
       const storedStartTime = localStorage.getItem('startTime_2');
@@ -56,6 +56,10 @@ export default function Home() {
       router.push("/treasure"); // Redirect to /level_two
     }
   };
+
+  const handleDataset = ()=>{
+    window.open("https://nvlpubs.nist.gov/nistpubs/Legacy/hb/nbshandbook138.pdf", "_blank", "noopener,noreferrer");
+  }
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -165,9 +169,9 @@ export default function Home() {
           }}
         >
           <FaDownload className="text-black mr-2 hover:text-yellow-500 transition-colors duration-300" />
-          <div className="text-black text-xl font-semibold hover:text-yellow-500 transition-colors duration-300">
+          <button className="text-black text-xl font-semibold hover:text-yellow-500 transition-colors duration-300" onClick={handleDataset}>
             Download Dataset
-          </div>
+          </button>
         </div>
       </div>
     </div>
