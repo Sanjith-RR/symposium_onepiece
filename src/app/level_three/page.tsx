@@ -1,13 +1,24 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { FaPaperPlane, FaDownload } from "react-icons/fa";
 import { useRouter } from "next/navigation"; // Import useRouter from next/router
+import { useEffect, useLayoutEffect, useState } from "react";
+import { FaDownload, FaPaperPlane } from "react-icons/fa";
 
 export default function Home() {
   const [timeLeft, setTimeLeft] = useState(45 * 60); // 25 minutes in seconds
   const [secretCode, setSecretCode] = useState(""); // State for the secret code
   const router = useRouter(); // Initialize the router
+  const [isAllowed, setIsAllowed] = useState(false);
+
+    useLayoutEffect(() => {
+        const accessGranted = localStorage.getItem("access_granted_3") === "true";
+        
+        if (!accessGranted) {
+            router.push('/');  // Redirect if no access
+        } else {
+            setIsAllowed(true); // Grant access
+        }
+    }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -23,7 +34,8 @@ export default function Home() {
   };
 
   const handleSubmit = () => {
-    if (secretCode) {
+    if (secretCode==="SST") {
+      localStorage.setItem("access_granted_treasure", "true"); // Set access_granted to true
       router.push("/treasure"); // Redirect to /level_two
     }
   };

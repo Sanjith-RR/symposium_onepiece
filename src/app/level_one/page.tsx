@@ -1,20 +1,54 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { FaPaperPlane, FaDownload } from "react-icons/fa";
 import { useRouter } from "next/navigation"; // Import useRouter from next/router
+import { useEffect, useState } from "react";
+import { FaDownload, FaPaperPlane } from "react-icons/fa";
 
 export default function Home() {
-  const [timeLeft, setTimeLeft] = useState(25 * 60); // 25 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(0); // 25 minutes in seconds
   const [secretCode, setSecretCode] = useState(""); // State for the secret code
   const router = useRouter(); // Initialize the router
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTimeLeft((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
+      setTimeLeft((prevTime) => {
+        if (prevTime > 0) {
+          return prevTime - 1;
+        } else {
+          clearInterval(timer); // Stop the timer when time reaches zero
+          return 0;
+        }
+      });
     }, 1000);
+
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    // Check if there's a start time in localStorage
+    const storedStartTime = localStorage.getItem('startTime_1');
+    const storedDuration = localStorage.getItem('duration_1') || 25 * 60;
+
+    if (storedStartTime) {
+      const elapsedTime = Math.floor((Date.now() - parseInt(storedStartTime)) / 1000);
+      const remainingTime = Math.max(storedDuration - elapsedTime, 0);
+      setTimeLeft(remainingTime);
+    } else {
+      const newStartTime = Date.now(); // new Date('2024-03-16T10:00:00').getTime();
+      localStorage.setItem('startTime_1', newStartTime.toString());
+      localStorage.setItem('duration_1', storedDuration.toString());
+      setTimeLeft(parseInt(storedDuration));
+    }
+  }, []);
+
+  const handleDataset = ()=>{
+    const url = "https://github.com/Sandhiya-S67/symposium_dataset";
+    const a = document.createElement("a");
+    a.href = url;
+    a.target = "_blank";  // Opens in a new tab
+    a.rel = "noopener noreferrer"; // Security best practice
+    a.click();
+  }
 
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
@@ -23,8 +57,12 @@ export default function Home() {
   };
 
   const handleSubmit = () => {
-    if (secretCode) {
+    if (secretCode.trim() === "123456789") {
+      localStorage.setItem("access_granted_2", "true"); // Set access_granted to true
       router.push("/level_two"); // Redirect to /level_two
+    }else{
+      setSecretCode(""); // Clear the input field
+      alert("Wrong Secret Code. Try Again!"); // Show alert
     }
   };
 
@@ -136,9 +174,9 @@ export default function Home() {
           }}
         >
           <FaDownload className="text-black mr-2 hover:text-yellow-500 transition-colors duration-300" />
-          <div className="text-black text-xl font-semibold hover:text-yellow-500 transition-colors duration-300">
+          <button className="text-black text-xl font-semibold hover:text-yellow-500 transition-colors duration-300" onClick={handleDataset}>
             Download Dataset
-          </div>
+          </button>
         </div>
       </div>
     </div>
