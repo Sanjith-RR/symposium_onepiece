@@ -10,17 +10,16 @@ export default function Home() {
   const router = useRouter(); // Initialize the router
   const [isAllowed, setIsAllowed] = useState(false);
 
-    useEffect(() => {
-        const accessGranted = localStorage.getItem("access_granted_2") === "true";
-        
-        if (!accessGranted) {
-            router.push('/');  // Redirect if no access
-        } else {
-            setIsAllowed(true); // Grant access
-        }
-    }, [router]);
-
+  useEffect(() => {
+    const accessGranted = localStorage.getItem("access_granted_2") === "true";
     
+    if (!accessGranted) {
+        router.push('/');  // Redirect if no access
+    } else {
+        setIsAllowed(true); // Grant access
+    }
+  }, [router]);
+
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
@@ -51,16 +50,31 @@ export default function Home() {
     return `${String(minutes).padStart(2, "0")}:${String(remainingSeconds).padStart(2, "0")}`;
   };
 
+  const calculateMatchPercentage = (input: string, target: string) => {
+    let matchCount = 0;
+    for (let i = 0; i < Math.min(input.length, target.length); i++) {
+      if (input[i] === target[i]) {
+        matchCount++;
+      }
+    }
+    return (matchCount / target.length) * 100;
+  };
+
   const handleSubmit = () => {
-    if (secretCode.trim()==="987654321") {
+    const targetCode = "111121121121121111111411112112112111112111111214112111141111141111411141101101112111111321411141101141111201111441111112141114121111211111141211112111114112111214111111111111111111111111111111111111411114141114311434211111141441141141411111114344111331111323131111111034131131131110341311311311101111114111113111113111113111113111311111411111111141131121411111121111111111143141111111111411111131411111111114111311413114111131111131111411133111131113111131111111111311114343111114111111331131411441112114131114111111111111131111111111114111411141114111111111414111211111311141111111111121122212111112121421214111441111141121111111141111111111141111111111111111111211111121111111121121111021111111111121112112222121112112121111121111";
+    const matchPercentage = calculateMatchPercentage(secretCode.trim(), targetCode);
+
+    if (matchPercentage >= 70) {
       localStorage.setItem("access_granted_3", "true"); // Set access_granted to true
-      router.push("/level_three"); // Redirect to /level_two
+      router.push("/level_three"); // Redirect to /level_three
+    } else {
+      alert(`Your accuracy is ${matchPercentage.toFixed(2)}%. You need at least 70% accuracy to proceed.`);
     }
   };
 
   const handleDataset = () => {
     window.open("https://github.com/KSSRUTHI/symposium_dataset", "_blank", "noopener,noreferrer");
-};
+  };
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {

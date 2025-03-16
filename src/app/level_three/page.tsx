@@ -51,7 +51,7 @@ export default function Home() {
   };
 
   const handleSubmit = () => {
-    if (secretCode==="SST") {
+    if (secretCode==="TheOnePieceIsReal69!") {
       localStorage.setItem("access_granted_treasure", "true"); // Set access_granted to true
       router.push("/treasure"); // Redirect to /level_two
     }
