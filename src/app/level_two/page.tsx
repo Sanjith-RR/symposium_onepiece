@@ -160,11 +160,13 @@ export default function Home() {
               value={secretCode}
               onChange={(e) => setSecretCode(e.target.value)}
               onKeyPress={handleKeyPress} // Add onKeyPress event
+              disabled={timeLeft === 0} // Disable input when time is up
             />
             <button
               className="ml-2 p-2 text-white bg-blue-500 rounded"
               style={{ borderRadius: "5px" }}
               onClick={handleSubmit} // Add onClick event
+              disabled={timeLeft === 0} // Disable button when time is up
             >
               <FaPaperPlane />
             </button>

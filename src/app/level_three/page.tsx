@@ -22,8 +22,8 @@ export default function Home() {
 
     useEffect(() => {
       // Check if there's a start time in localStorage
-      const storedStartTime = localStorage.getItem('startTime_2');
-      const storedDuration =  localStorage.getItem('duration_2') || (45 * 60).toString();
+      const storedStartTime = localStorage.getItem('startTime_3');
+      const storedDuration =  localStorage.getItem('duration_3') || (45 * 60).toString();
   
       if (storedStartTime) {
         const elapsedTime = Math.floor((Date.now() - parseInt(storedStartTime)) / 1000);
@@ -31,8 +31,8 @@ export default function Home() {
         setTimeLeft(remainingTime);
       } else {
         const newStartTime = Date.now(); // new Date('2024-03-16T10:00:00').getTime();
-        localStorage.setItem('startTime_2', newStartTime.toString());
-        localStorage.setItem('duration_2', storedDuration.toString());
+        localStorage.setItem('startTime_3', newStartTime.toString());
+        localStorage.setItem('duration_3', storedDuration.toString());
         setTimeLeft(parseInt(storedDuration));
       }
     }, []);
@@ -145,11 +145,13 @@ export default function Home() {
               value={secretCode}
               onChange={(e) => setSecretCode(e.target.value)}
               onKeyPress={handleKeyPress} // Add onKeyPress event
+              disabled={timeLeft === 0} // Disable input when time is up
             />
             <button
               className="ml-2 p-2 text-white bg-blue-500 rounded"
               style={{ borderRadius: "5px" }}
               onClick={handleSubmit} // Add onClick event
+              disabled={timeLeft === 0} // Disable button when time is up
             >
               <FaPaperPlane />
             </button>
